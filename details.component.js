@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { SafeAreaView } from 'react-navigation';
 import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction, Card, CardHeader} from '@ui-kitten/components';
 import { retrieveData } from './App';
@@ -17,21 +17,16 @@ export const DetailsScreen = ({ navigation }) => {
     <TopNavigationAction icon={BackIcon} onPress={navigateBack}/>
   );
 
-  const LoadAllData = async() => {
-      
-    data = JSON.parse(await retrieveData());
-    data.observations.forEach(element => {
-        <DataCard dryBulb={data.dryBulb} wetBulb={data.wetBulb} dewpoint={data.dewpoint} relHumidity={data.relHumidity}/>
-    });
-  }
+  
 
+  
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <TopNavigation title='MyApp' alignment='center' leftControl={BackAction()}/>
       <Divider/>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
-        
+
 
 
       </Layout>
@@ -39,8 +34,14 @@ export const DetailsScreen = ({ navigation }) => {
   );
   
 };
+const LoadAllData = async() => {
+      
+  return JSON.parse(await retrieveData());
+ 
+}
 
-class DataCard extends Card{
+
+export class DataCard extends Component{
     render(){
         <Card>
             <CardHeader>Data</CardHeader>
