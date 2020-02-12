@@ -1,10 +1,10 @@
 {
   "webpackServerPort": 19006,
   "packagerPort": 19001,
-  "packagerPid": 9580,
+  "packagerPid": 6440,
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://ta-azm.anonymous.soil217app.exp.direct",
   "packagerNgrokUrl": "https://packager.ta-azm.anonymous.soil217app.exp.direct",
-  "ngrokPid": 6676
+  "ngrokPid": 17836
 }

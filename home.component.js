@@ -80,7 +80,7 @@ export const HomeScreen = ({ navigation }) => {
       <TopNavigation title='Soil 217 Companion' alignment='center'/>
       <Divider/>
       <Layout style={styles.container}>
-        <Layout style={styles.layout} level='1'>
+        <Layout style={styles.childLayout} level='1'>
           <Input label='Dry Bulb Temperature' style={styles.inputBox}
             placeholder="20°C"
             onChangeText={text => onChangeDry(text)}/>
@@ -92,30 +92,30 @@ export const HomeScreen = ({ navigation }) => {
         </Layout>
 
 
-        <Layout style={styles.layout} level='1'>
+        <Layout style={styles.childLayout} level='1'>
           <Card style={styles.card}>
               <CardHeader title="Dewpoint Temperature"/>
-              <Text>
+              <Text style={{margin: 'auto',}}>
               {dangerText==""?dewpoint:"--"}°C
               </Text>
           </Card>
           <Card style={styles.card}>
               <CardHeader title="Relative Humidity"/>
-              <Text>
+              <Text style={{margin: 'auto',}}>
               {dangerText==""?relHumidity:"--"}%
               </Text>
           </Card>
         </Layout>
+      </Layout>
 
-        <Layout style={styles.layout} level='1'>
-          <ButtonGroup style={styles.buttonGroup}> 
-            <Button style={styles.Button} onPress={()=>{navigateDetails()}}>View Data</Button>
-            <Button style={styles.Button} disabled={dangerText!=""} onPress={()=>{appendToData()}}>Log Data!</Button>
+      <Layout style={{...styles.childLayout}} level='1'>
+          <ButtonGroup style={styles.buttonGroup} size='giant'> 
+            <Button style={styles.button} onPress={()=>{navigateDetails()}} >View Data</Button>
+            <Button style={styles.button} disabled={dangerText!=""} onPress={()=>{appendToData()}} >Log Data!</Button>
             {/* <Button style={styles.Button} onPress={()=>{deleteAllData()}}>delete</Button> */}
           </ButtonGroup>
         </Layout>
         <Text>{testData}</Text>
-      </Layout>
     </SafeAreaView>
   );
 };
@@ -123,7 +123,7 @@ export const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      flex: 2,
       flexDirection:'column',
       justifyContent: 'center',
       alignItems: 'center',
@@ -131,15 +131,23 @@ const styles = StyleSheet.create({
     },
 
     inputBox:{
-      padding:20
+      padding:10
     },
     
-    layout: {
-      flex: 1,
+    childLayout: {
+
       justifyContent: 'center',
       alignItems: 'stretch',
     },
 
+    footerLayout: {
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'flex-end',
+      padding: 20
+    },
+
+ 
     instructions: {
       textAlign: 'center',
       color: '#333333',
@@ -151,14 +159,13 @@ const styles = StyleSheet.create({
     },
 
     button: {
-      margin: 8,
     },
 
     buttonGroup: {
-      flex: 1,
       flexDirection:'row',
       justifyContent: 'center',
       alignItems: 'center',
+      margin:20
     },
   });
   

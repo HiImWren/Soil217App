@@ -62,18 +62,22 @@ export class DataCard extends Component{
 
     render(){
 
+
       if(this.state.data!=null){
         if(true){
           return(
             <ScrollView>
-              {this.state.data.observations.map((nData,index) => (
-                
-                <Card key={index}>
-                  <CardHeader title={"Observation on "+nData.month+"/"+nData.day+"/"+nData.year+" at "+nData.hour+":"+nData.minutes}/>
-                  <Text>Dry Bulb:{nData.dryBulb}°C Wet Bulb:{nData.wetBulb}°C Dewpoint:{Math.round(nData.dewpoint)}°C Relative Humidity:{Math.round(nData.relHumidity)}%</Text>
-                  <Button style={styles.Button} onPress={()=>{deleteData(this,index).then(() => LoadAllData().then(res=> this.setState({data: res})))}}>delete</Button>
-                </Card>
-              ))}
+                {this.state.data.observations.map((nData,index) => (
+                  
+                  <Card key={index} footer={() => (
+                      <View style={styles.footerContainer}>
+                          <Button style={styles.button} size='small' onPress={()=>{deleteData(this,index).then(() => LoadAllData().then(res=> this.setState({data: res})))}} status='danger'>delete</Button>
+                      </View>
+                    )} style={styles.card}>
+                    <CardHeader title={"Observation on "+nData.month+"/"+nData.day+"/"+nData.year+" at "+nData.hour+":"+nData.minutes}/>
+                    <Text>Dry Bulb:{nData.dryBulb}°C Wet Bulb:{nData.wetBulb}°C Dewpoint:{Math.round(nData.dewpoint)}°C Relative Humidity:{Math.round(nData.relHumidity)}%</Text>
+                  </Card>
+                ))}
               </ScrollView>
           );
         }
@@ -86,11 +90,18 @@ export class DataCard extends Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection:'column',
+
     marginTop: StatusBar.currentHeight,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+
+  card:{ 
+   margin:10 
+  },
+
   instructions: {
     textAlign: 'center',
     color: '#333333',
@@ -98,6 +109,17 @@ const styles = StyleSheet.create({
   },
   
   button: {
-    margin: 8,
+    //margin: 8,
+    marginHorizontal: 4,
+    width: 50
+  },
+
+  footerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  
+  footerControl: {
+    marginHorizontal: 4,
   },
 });
