@@ -1,17 +1,16 @@
 {
   "name": "Soil217App",
-  "displayName": "Soil217App",
+  "displayName": "Soil 217 Companion",
   "expo": {
-    "name": "Soil217App",
-    "slug": "expo-template-bare",
+    "name": "Soil 217 Companion",
+    "slug": "soil217",
     "privacy": "unlisted",
     "sdkVersion": "36.0.0",
     "version": "1.0.0",
     "entryPoint": "node_modules/expo/AppEntry.js",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ]
+	"android": {
+      "package": "com.archenemy.soil217",
+      "versionCode": 1
+    }
   }
 }

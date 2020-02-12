@@ -16,17 +16,26 @@ const HomeScreen = () => (
   </Layout>
 );
 
-
-
-export const deleteData = async () => {
+export const deleteAllData = async () => {
   await AsyncStorage.removeItem("LoggedData");
+}
+
+export const deleteData = async (comp,index) => {
+  var d = JSON.parse(await retrieveData());
+  d.observations.splice(index,1);
+
+  await AsyncStorage.setItem('LoggedData',JSON.stringify(d));
+  console.log(d);
+  comp.forceUpdate();
 }
 
 export const saveData = async (savingData, dryBulb, wetBulb, dewpoint, relHumidity) => {
   
   console.log(savingData);
   var lData = JSON.parse(savingData);
-  var data = {"dryBulb":dryBulb,"wetBulb":wetBulb,"dewpoint":dewpoint,"relHumidity":relHumidity};
+  var d = new Date();
+  d.getTime();
+  var data = {"dryBulb":dryBulb,"wetBulb":wetBulb,"dewpoint":dewpoint,"relHumidity":relHumidity, "month":d.getMonth()+1,"day":d.getDate(),"year":d.getFullYear(),"hour":d.getHours(),"minutes":d.getMinutes()};
   lData.observations.push(data);
   console.log(JSON.stringify(savingData));  
   await AsyncStorage.setItem('LoggedData',JSON.stringify(lData));
@@ -60,13 +69,6 @@ export const retrieveData = async () => {
 }
 
 export default function App() {
-
-    
-
-  
-
-  
-
 
   return (
 

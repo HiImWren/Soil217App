@@ -2,7 +2,7 @@ import React,{Component, useState, useEffect}from 'react';
 import { Platform, StyleSheet, View, TextInput, AsyncStorage} from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { Button, Divider, Layout, TopNavigation, Input, CardHeader, Card , Text, ButtonGroup} from '@ui-kitten/components';
-import App,{retrieveData,saveData, deleteData} from './App';
+import App,{retrieveData,saveData, deleteAllData} from './App';
 
 const a = 6.112
 const b = 17.67
@@ -30,6 +30,7 @@ export const HomeScreen = ({ navigation }) => {
     const [relHumidity, setRelHumidity] = useState(100);//: 0,
     const [pressure, setPressure] = useState(1000);//: 1000,
     const [testData,setTestData] = useState("");
+    const [dangerText, setDangerText] = useState("");
 
     function onChangeDry(text) {
 
@@ -43,13 +44,27 @@ export const HomeScreen = ({ navigation }) => {
         // calculateResults();
     }
 
+    function ValidateResults (x,y){
+      if(y<0){
+        return "Difference too great";
+      }
+      return "";
+    }
+
     function calculateResults() {
+
+      if(wetBulb <= dryBulb){
 
         var Es = a * Math.exp(((b * dryBulb) / (dryBulb + c)));
         var Esw = a * Math.exp((b * wetBulb) / (wetBulb + c));
         var Ea = Esw - (pressure*(dryBulb-wetBulb)*0.00066*(1+(0.00115*wetBulb)));
         setRelHumidity((Ea/Es)*100);
         setDewPoint((c*Math.log(Ea/a))/((b - Math.log(Ea/a))));
+        setDangerText(ValidateResults(dryBulb,(Ea/Es)*100));
+      }else{
+        setDangerText("Wet bulb temp too high");
+      }
+      
 
     }
     
@@ -68,31 +83,33 @@ export const HomeScreen = ({ navigation }) => {
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Input
         label='Dry Bulb Temperature'
-        placeholder="20"
+        placeholder="20°C"
         onChangeText={text => onChangeDry(text)}
         />
         <Input
         label='Wet Bulb Temperature'
-        placeholder="20"
+        placeholder="20°C"
         onChangeText={text => onChangeWet(text)}
+        status={dangerText != ""? 'danger':'success'}
+        caption={dangerText}
         />
         
         <Card style={styles.card}>
             <CardHeader title="Dewpoint Temperature"/>
             <Text>
-            {Math.round(dewpoint)}*C
+            {dangerText==""?dewpoint:"--"}°C
             </Text>
             </Card>
             <Card style={styles.card}>
             <CardHeader title="Relative Humidity"/>
             <Text>
-            {Math.round(relHumidity)}%
+            {dangerText==""?relHumidity:"--"}%
             </Text>
             </Card>
         <ButtonGroup>
-        <Button style={styles.Button} onPress={()=>{appendToData()}}>Log Data!</Button>
         <Button style={styles.Button} onPress={()=>{navigateDetails()}}>View Data</Button>
-        <Button style={styles.Button} onPress={()=>{deleteData()}}>deleteData</Button>
+        <Button style={styles.Button} disabled={dangerText!=""} onPress={()=>{appendToData()}}>Log Data!</Button>
+        {/* <Button style={styles.Button} onPress={()=>{deleteAllData()}}>delete</Button> */}
         </ButtonGroup>
         <Text>{testData}</Text>
       </Layout>
