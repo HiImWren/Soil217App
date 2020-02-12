@@ -1,4 +1,4 @@
-import React, { Component, useState} from 'react';
+import React, { Component, useState, useEffect} from 'react';
 import { SafeAreaView } from 'react-navigation';
 import { Platform, StyleSheet, View, TextInput, AsyncStorage, StatusBar} from 'react-native';
 import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction, Card, CardHeader, Button, IconRegistry} from '@ui-kitten/components';
@@ -42,49 +42,35 @@ export const DetailsScreen = ({ navigation }) => {
   
 };
 const LoadAllData = async() => {
-      
   return JSON.parse(await retrieveData());
- 
 }
 
 
-export class DataCard extends Component{
+export default function DataCard (){
+
+    const [data, setDataState] = useState({observations: []});
 
 
-    constructor (props){
-      super(props);
-      this.state = {data: null}
-    }
+    useEffect(() => {
+      // Update the document title using the browser API
+      LoadAllData().then(res => setDataState( res));
+    });
 
-    componentDidMount(){
-      LoadAllData().then(res => this.setState({data: res}))
-    }
-
-    render(){
-
-
-      if(this.state.data!=null){
-        if(true){
-          return(
-            <ScrollView>
-                {this.state.data.observations.map((nData,index) => (
-                  
-                  <Card key={index} footer={() => (
-                      <View style={styles.footerContainer}>
-                          <Button style={styles.button} size='small' onPress={()=>{deleteData(this,index).then(() => LoadAllData().then(res=> this.setState({data: res})))}} status='danger'>delete</Button>
-                      </View>
-                    )} style={styles.card}>
-                    <CardHeader title={"Observation on "+nData.month+"/"+nData.day+"/"+nData.year+" at "+nData.hour+":"+nData.minutes}/>
-                    <Text>Dry Bulb:{nData.dryBulb}°C Wet Bulb:{nData.wetBulb}°C Dewpoint:{Math.round(nData.dewpoint)}°C Relative Humidity:{Math.round(nData.relHumidity)}%</Text>
-                  </Card>
-                ))}
-              </ScrollView>
-          );
-        }
-      }else{
-        return null;
-      }
-    }
+    return(
+      <ScrollView>
+          {data.observations.map((nData,index) => (
+            
+            <Card key={index} footer={() => (
+                <View style={styles.footerContainer}>
+                    <Button style={styles.button} size='small' onPress={()=>{deleteData(this,index).then(() => LoadAllData().then(res=> this.setState({data: res})))}} status='danger'>delete</Button>
+                </View>
+              )} style={styles.card}>
+              <CardHeader title={"Observation on "+nData.month+"/"+nData.day+"/"+nData.year+" at "+nData.hour+":"+nData.minutes}/>
+              <Text>Dry Bulb:{nData.dryBulb}°C Wet Bulb:{nData.wetBulb}°C Dewpoint:{Math.round(nData.dewpoint)}°C Relative Humidity:{Math.round(nData.relHumidity)}%</Text>
+            </Card>
+          ))}
+        </ScrollView>
+    );
 }
 
 const styles = StyleSheet.create({
