@@ -1,20 +1,15 @@
-import React, { Component, useState, useEffect } from 'react';
-import { Platform, StyleSheet, View, TextInput, AsyncStorage} from 'react-native';
-import { ApplicationProvider, Layout, Text, Input , Card, CardHeader, Button,IconRegistry} from '@ui-kitten/components';
+import React from 'react';
+
+import { Platform, AsyncStorage, StatusBar, SafeAreaView} from 'react-native';
+import { ApplicationProvider, Layout, Text} from '@ui-kitten/components';
 import { mapping, light as lightTheme } from '@eva-design/eva';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { AppNavigator } from './navigation.component';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android: 'Double tap R on your keyboard to reload,\n' + 'Shake or press menu button for dev menu',
 });
-
-const HomeScreen = () => (
-  <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-    <Text category='h1'>Soil 217 Companion</Text>
-  </Layout>
-);
 
 export const deleteAllData = async () => {
   await AsyncStorage.removeItem("LoggedData");
@@ -73,12 +68,13 @@ export default function App() {
   return (
 
     <React.Fragment>
-    <IconRegistry icons={EvaIconsPack}/>
-    <ApplicationProvider mapping={mapping} theme={lightTheme}>
     
+    <ApplicationProvider mapping={mapping} theme={lightTheme}>
+    <SafeAreaProvider>
       <AppNavigator></AppNavigator>
-
+      </SafeAreaProvider>
     </ApplicationProvider>
+    
     </React.Fragment>
   );
 }

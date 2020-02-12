@@ -1,13 +1,12 @@
 import React, { Component, useState} from 'react';
 import { SafeAreaView } from 'react-navigation';
-import { Platform, StyleSheet, View, TextInput, AsyncStorage} from 'react-native';
+import { Platform, StyleSheet, View, TextInput, AsyncStorage, StatusBar} from 'react-native';
 import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction, Card, CardHeader, Button, IconRegistry} from '@ui-kitten/components';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import App,{retrieveData,saveData, deleteData} from './App';
 
 const BackIcon = (style) => (
-  <Icon {...style} name='arrow-back' />
+  <Text>Back</Text>
 );
 
 
@@ -23,14 +22,14 @@ export const DetailsScreen = ({ navigation }) => {
   )
   
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight}}>
       <TopNavigation title='MyApp' alignment='center' leftControl={BackAction()}/>
       <Divider/>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       
-      <ScrollView>
+      
         <DataCard></DataCard>
-        </ScrollView>
+        
     
         
         
@@ -66,17 +65,16 @@ export class DataCard extends Component{
       if(this.state.data!=null){
         if(true){
           return(
-            <div>
+            <ScrollView>
               {this.state.data.observations.map((nData,index) => (
                 
                 <Card key={index}>
-                  <IconRegistry icons={EvaIconsPack}/>
                   <CardHeader title={"Observation on "+nData.month+"/"+nData.day+"/"+nData.year+" at "+nData.hour+":"+nData.minutes}/>
                   <Text>Dry Bulb:{nData.dryBulb}°C Wet Bulb:{nData.wetBulb}°C Dewpoint:{Math.round(nData.dewpoint)}°C Relative Humidity:{Math.round(nData.relHumidity)}%</Text>
                   <Button style={styles.Button} onPress={()=>{deleteData(this,index).then(() => LoadAllData().then(res=> this.setState({data: res})))}}>delete</Button>
                 </Card>
               ))}
-            </div>
+              </ScrollView>
           );
         }
       }else{
@@ -88,6 +86,7 @@ export class DataCard extends Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: StatusBar.currentHeight,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
