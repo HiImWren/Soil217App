@@ -76,40 +76,44 @@ export const HomeScreen = ({ navigation }) => {
 
   return (
       
-    <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <TopNavigation title='Soil 217 Companion' alignment='center'/>
       <Divider/>
-      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Input
-        label='Dry Bulb Temperature'
-        placeholder="20°C"
-        onChangeText={text => onChangeDry(text)}
-        />
-        <Input
-        label='Wet Bulb Temperature'
-        placeholder="20°C"
-        onChangeText={text => onChangeWet(text)}
-        status={dangerText != ""? 'danger':'success'}
-        caption={dangerText}
-        />
-        
-        <Card style={styles.card}>
-            <CardHeader title="Dewpoint Temperature"/>
-            <Text>
-            {dangerText==""?Math.round(dewpoint):"--"}°C
-            </Text>
-            </Card>
-            <Card style={styles.card}>
-            <CardHeader title="Relative Humidity"/>
-            <Text>
-            {dangerText==""?Math.round(relHumidity):"--"}%
-            </Text>
-            </Card>
-        <ButtonGroup>
-        <Button style={styles.Button} onPress={()=>{navigateDetails()}}>View Data</Button>
-        <Button style={styles.Button} disabled={dangerText!=""} onPress={()=>{appendToData()}}>Log Data!</Button>
-        {/* <Button style={styles.Button} onPress={()=>{deleteAllData()}}>delete</Button> */}
-        </ButtonGroup>
+      <Layout style={styles.container}>
+        <Layout style={styles.layout} level='1'>
+          <Input label='Dry Bulb Temperature' style={styles.inputBox}
+            placeholder="20°C"
+            onChangeText={text => onChangeDry(text)}/>
+          <Input label='Wet Bulb Temperature' style={styles.inputBox}
+            placeholder="20°C"
+            onChangeText={text => onChangeWet(text)}
+            status={dangerText != ""? 'danger':'success'}
+            caption={dangerText}/> 
+        </Layout>
+
+
+        <Layout style={styles.layout} level='1'>
+          <Card style={styles.card}>
+              <CardHeader title="Dewpoint Temperature"/>
+              <Text>
+              {dangerText==""?dewpoint:"--"}°C
+              </Text>
+          </Card>
+          <Card style={styles.card}>
+              <CardHeader title="Relative Humidity"/>
+              <Text>
+              {dangerText==""?relHumidity:"--"}%
+              </Text>
+          </Card>
+        </Layout>
+
+        <Layout style={styles.layout} level='1'>
+          <ButtonGroup style={styles.buttonGroup}> 
+            <Button style={styles.Button} onPress={()=>{navigateDetails()}}>View Data</Button>
+            <Button style={styles.Button} disabled={dangerText!=""} onPress={()=>{appendToData()}}>Log Data!</Button>
+            {/* <Button style={styles.Button} onPress={()=>{deleteAllData()}}>delete</Button> */}
+          </ButtonGroup>
+        </Layout>
         <Text>{testData}</Text>
       </Layout>
     </SafeAreaView>
@@ -120,18 +124,41 @@ export const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      flexDirection:'column',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#F5FCFF',
+     // backgroundColor: '#F5FCFF',
     },
+
+    inputBox:{
+      padding:20
+    },
+    
+    layout: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'stretch',
+    },
+
     instructions: {
       textAlign: 'center',
       color: '#333333',
       marginBottom: 5,
     },
     
+    card: {
+      margin: 10
+    },
+
     button: {
       margin: 8,
+    },
+
+    buttonGroup: {
+      flex: 1,
+      flexDirection:'row',
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   });
   
