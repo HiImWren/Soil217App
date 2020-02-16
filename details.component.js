@@ -23,16 +23,7 @@ export const DetailsScreen = ({ navigation }) => {
       <TopNavigation title='Recorded Observations' alignment='center' leftControl={BackAction()}/>
       <Divider/>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      
-      
         <DataCard></DataCard>
-        
-    
-        
-        
-        
-        
-
       </Layout>
     </SafeAreaView>
   );
@@ -47,7 +38,6 @@ export default function DataCard (){
 
     const [data, setDataState] = useState({observations: []});
 
-
     useEffect(() => {
       // Update the document title using the browser API
       LoadAllData().then(res => setDataState( res));
@@ -59,7 +49,11 @@ export default function DataCard (){
             
             <Card key={index} footer={() => (
                 <View style={styles.footerContainer}>
-                    <Button style={styles.button} size='small' onPress={()=>{deleteData(this,index).then(() => LoadAllData())}} status='danger'>delete</Button>
+                    <Button style={styles.button} size='small' 
+                    onPress={()=>{
+                        deleteData(this,index)
+                       // .then(() => LoadAllData())
+                      }} status='danger'>delete</Button>
                 </View>
               )} style={styles.card}>
               <CardHeader title={"Observation on "+nData.month+"/"+nData.day+"/"+nData.year+" at "+nData.hour+":"+nData.minutes}/>
