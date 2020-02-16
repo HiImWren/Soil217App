@@ -5,10 +5,6 @@ import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction, Card, 
 import { ScrollView } from 'react-native-gesture-handler';
 import App,{retrieveData,saveData, deleteData} from './App';
 
-const BackIcon = (style) => (
-  <Text>Back</Text>
-);
-
 
 export const DetailsScreen = ({ navigation }) => {
 
@@ -17,13 +13,14 @@ export const DetailsScreen = ({ navigation }) => {
   };
 
   const BackAction = () => (
-    <TopNavigationAction icon={BackIcon} onPress={navigateBack}/>
-
+    //<TopNavigationAction onPress={navigateBack}>
+      <Button  style={styles.button} size='small' onPress={navigateBack}>Back</Button>
+   // </TopNavigationAction>
   )
-  
+    
   return (
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight}}>
-      <TopNavigation title='MyApp' alignment='center' leftControl={BackAction()}/>
+      <TopNavigation title='Recorded Observations' alignment='center' leftControl={BackAction()}/>
       <Divider/>
       <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       
@@ -62,7 +59,7 @@ export default function DataCard (){
             
             <Card key={index} footer={() => (
                 <View style={styles.footerContainer}>
-                    <Button style={styles.button} size='small' onPress={()=>{deleteData(this,index).then(() => LoadAllData().then(res=> this.setState({data: res})))}} status='danger'>delete</Button>
+                    <Button style={styles.button} size='small' onPress={()=>{deleteData(this,index).then(() => LoadAllData())}} status='danger'>delete</Button>
                 </View>
               )} style={styles.card}>
               <CardHeader title={"Observation on "+nData.month+"/"+nData.day+"/"+nData.year+" at "+nData.hour+":"+nData.minutes}/>

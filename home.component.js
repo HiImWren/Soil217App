@@ -1,5 +1,5 @@
 import React,{Component, useState, useEffect}from 'react';
-import { Platform, StyleSheet, View, TextInput, AsyncStorage,StatusBar,SafeAreaView, statusbar } from 'react-native';
+import { Platform, StyleSheet, View, TextInput, AsyncStorage,StatusBar,SafeAreaView, statusbar, ImageBackground } from 'react-native';
 import { Button, Divider, Layout, TopNavigation, Input, CardHeader, Card , Text, ButtonGroup} from '@ui-kitten/components';
 import App,{retrieveData,saveData, deleteAllData} from './App';
 
@@ -77,7 +77,7 @@ export const HomeScreen = ({ navigation }) => {
   return (
       
     <SafeAreaView style={{ flex: 1 }}>
-      <TopNavigation title='Soil 217 Companion' alignment='center'/>
+      <TopNavigation title='Soil 217 Weather Observation' alignment='center'/>
       <Divider/>
       <Layout style={styles.container}>
         <Layout style={styles.childLayout} level='1'>
@@ -96,13 +96,13 @@ export const HomeScreen = ({ navigation }) => {
           <Card style={styles.card}>
               <CardHeader title="Dewpoint Temperature"/>
               <Text style={{margin: 'auto',}}>
-              {dangerText==""?dewpoint:"--"}°C
+              {dangerText==""?Math.round(dewpoint*10)/10:"--"}°C
               </Text>
           </Card>
           <Card style={styles.card}>
               <CardHeader title="Relative Humidity"/>
               <Text style={{margin: 'auto',}}>
-              {dangerText==""?relHumidity:"--"}%
+              {dangerText==""?Math.round(relHumidity):"--"}%
               </Text>
           </Card>
         </Layout>

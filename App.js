@@ -21,7 +21,6 @@ export const deleteData = async (comp,index) => {
 
   await AsyncStorage.setItem('LoggedData',JSON.stringify(d));
   console.log(d);
-  comp.forceUpdate();
 }
 
 export const saveData = async (savingData, dryBulb, wetBulb, dewpoint, relHumidity) => {
