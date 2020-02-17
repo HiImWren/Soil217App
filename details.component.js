@@ -1,13 +1,16 @@
 import React, { Component, useState, useEffect} from 'react';
 import { SafeAreaView } from 'react-navigation';
-import { Platform, StyleSheet, View, TextInput, AsyncStorage, StatusBar} from 'react-native';
+import { Platform, StyleSheet, View, TextInput, AsyncStorage, StatusBar, ImageBackground} from 'react-native';
 import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction, Card, CardHeader, Button, IconRegistry} from '@ui-kitten/components';
 import { ScrollView } from 'react-native-gesture-handler';
 import App, {saveData, deleteData, retrieveData} from './App';
-
+import cloud from './Clouds.jpg';
 const backButtonIcon = (style)=>(
   <Icon name='arrow-back-outline' style={{...style}}/>
+);
 
+const DeleteIcon = (style)=>(
+  <Icon name='trash-outline' fill='white' style={{...style}}/>
 );
 
 export const DetailsScreen = ({ navigation }) => {
@@ -26,9 +29,11 @@ export const DetailsScreen = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1, marginTop: StatusBar.currentHeight}}>
       <TopNavigation title='Recorded Observations' alignment='center' leftControl={BackAction()}/>
       <Divider/>
-      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <ImageBackground source={cloud} style={{height:'100%'}}>
+      <Layout style={{ flex: 1, justifyContent: 'center', alignItems: 'center',backgroundColor: '#00000000', }}>
         <DataCard></DataCard>
       </Layout>
+      </ImageBackground>
     </SafeAreaView>
   );
   
@@ -63,7 +68,8 @@ export default function DataCard (){
     }
 
     return(
-      <ScrollView>
+      
+      <ScrollView style={{width: '100%', marginBottom:StatusBar.currentHeight}}>
           {data.observations.map((nData,index) => (
             
             <Card key={index} footer={() => (
@@ -72,11 +78,28 @@ export default function DataCard (){
                     onPress={()=>{
                         deleteData(this, index, setDataState);
                        // .then(() => LoadAllData())
-                      }} status='danger'>delete</Button>
+                      }} status='danger' icon={DeleteIcon}>Delete</Button>
                 </View>
               )} style={styles.card}>
               <CardHeader title={"Observation on "+nData.month+"/"+nData.day+"/"+nData.year+" at "+nData.hour+":"+nData.minutes}/>
-              <Text>Dry Bulb:{nData.dryBulb}°C Wet Bulb:{nData.wetBulb}°C Dewpoint:{Math.round(nData.dewpoint)}°C Relative Humidity:{Math.round(nData.relHumidity)}%</Text>
+              <Layout style={styles.horizontalBox}>
+                <Layout style={styles.Box}> 
+                  <Text style={{textAlign: 'center', fontSize: 10}}>Dry Bulb</Text>
+                  <Text style={styles.BigText}>{nData.dryBulb}°C</Text>
+                </Layout>
+                <Layout style={styles.Box}> 
+                  <Text style={{textAlign: 'center', fontSize: 10}}>Wet Bulb</Text>
+                  <Text style={styles.BigText}>{nData.wetBulb}°C</Text>
+                </Layout>
+                <Layout style={styles.Box}> 
+                  <Text style={{textAlign: 'center', fontSize: 10}}>Dewpoint</Text>
+                  <Text style={styles.BigText}>{Math.round(nData.dewpoint*10)/10}°C</Text>
+                </Layout>
+                <Layout style={styles.Box}> 
+                  <Text style={{textAlign: 'center', fontSize: 10}}>Rel. Humidity</Text>
+                  <Text style={styles.BigText}>{Math.round(nData.relHumidity)}%</Text>
+                </Layout>
+              </Layout>
             </Card>
           ))}
         </ScrollView>
@@ -86,12 +109,11 @@ export default function DataCard (){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection:'column',
-
+    //flexDirection:'column',
     marginTop: StatusBar.currentHeight,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#00000000',
   },
 
   card:{ 
@@ -118,4 +140,24 @@ const styles = StyleSheet.create({
   footerControl: {
     marginHorizontal: 4,
   },
+
+  horizontalBox:{
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+
+  Box:{
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+
+  BigText:{
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  }
 });

@@ -1,9 +1,9 @@
 import React,{Component, useState, useEffect}from 'react';
 import { Platform, StyleSheet, View, TextInput, AsyncStorage,StatusBar,SafeAreaView, statusbar, ImageBackground } from 'react-native';
-import { Button, Divider, Layout, TopNavigation, Input, CardHeader, Card , Text, ButtonGroup} from '@ui-kitten/components';
+import { Button, Divider, Layout, TopNavigation, Input, CardHeader, Card , Text, ButtonGroup, withStyles} from '@ui-kitten/components';
 import App,{retrieveData,saveData, deleteAllData} from './App';
 
-import catUmbrella from './cat_umbrella.jpg';
+import catUmbrella from './Clouds.jpg';
 
 const a = 6.112
 const b = 17.67
@@ -79,9 +79,9 @@ export const HomeScreen = ({ navigation }) => {
   return (
     <ImageBackground source={catUmbrella} style={{... styles.container, width: '100%', height: '100%'}}>
 
-    <SafeAreaView style={{height:'100%',marginTop: StatusBar.currentHeight}}>
-      <TopNavigation title='Soil 217 Weather Observation' alignment='center'/>
-      <Divider/>
+    <SafeAreaView style={styles.safeArea}>
+      <TopNavigation title='Soil 217 Weather Observation' style={styles.TopNavigation} titleStyle={styles.TopTitle} alignment='center'/>
+      {/* <Divider/> */}
 
       <Layout style={styles.container}>
         <Layout style={styles.childLayout2} level='1'>
@@ -99,13 +99,13 @@ export const HomeScreen = ({ navigation }) => {
         <Layout style={styles.childLayout} level='1'>
           <Card style={styles.card}>
               <CardHeader title="Dewpoint Temperature"/>
-              <Text style={{margin: 'auto',}}>
+              <Text style={styles.BigText}>
               {dangerText==""?Math.round(dewpoint*10)/10:"--"}°C
               </Text>
           </Card>
           <Card style={styles.card}>
               <CardHeader title="Relative Humidity"/>
-              <Text style={{margin: 'auto',}}>
+              <Text style={styles.BigText}>
               {dangerText==""?Math.round(relHumidity):"--"}%
               </Text>
           </Card>
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
       flexDirection:'column',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#F5FCFF10',
+      backgroundColor: '#F5FCFF00',
      // backgroundColor: '#F5FCFF',
     },
     buttonGroupContainer: {
@@ -141,20 +141,38 @@ const styles = StyleSheet.create({
       flexDirection:'column',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: '#F5FCFF10',
+      backgroundColor: '#F5FCFF00',
      // backgroundColor: '#F5FCFF',
+    },
+
+    TopNavigation:{
+    //  width: '100%',
+      backgroundColor: '#00000000',
+      
+    },
+
+    TopTitle:{
+      color:'white',
+      fontSize: 20,
+      fontWeight: 'bold',
     },
 
     inputBox:{
       padding:10,
     },
     
-
+    safeArea:{
+      height:'100%',
+      marginTop: StatusBar.currentHeight*2,
+      
+    },
+    
     childLayout2: {
 
       justifyContent: 'center',
       alignItems: 'stretch',
-      backgroundColor: '#F5FCFFAA'
+      backgroundColor: '#F5FCFFAA',
+      width: '90%',
     },
 
     childLayout: {
@@ -162,7 +180,8 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'stretch',
       backgroundColor: '#F5FCFF55',
-      margin:10
+      margin:10,
+      width: '90%',
     },
 
     footerLayout: {
@@ -189,5 +208,11 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       margin:20
     },
+    BigText:{
+      fontSize: 20,
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+
   });
   
