@@ -5,6 +5,10 @@ import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction, Card, 
 import { ScrollView } from 'react-native-gesture-handler';
 import App,{retrieveData,saveData, deleteData} from './App';
 
+const backButtonIcon = (style)=>(
+  <Icon name='arrow-back-outline' style={{...style}}/>
+
+);
 
 export const DetailsScreen = ({ navigation }) => {
 
@@ -13,9 +17,9 @@ export const DetailsScreen = ({ navigation }) => {
   };
 
   const BackAction = () => (
-    //<TopNavigationAction onPress={navigateBack}>
-      <Button  style={styles.button} size='small' onPress={navigateBack}>Back</Button>
-   // </TopNavigationAction>
+    <TopNavigationAction icon={backButtonIcon} onPress={navigateBack}>
+     {/* <Button  style={styles.button} size='small' onPress={navigateBack}>Back</Button> */}
+    </TopNavigationAction>
   )
     
   return (
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
   button: {
     //margin: 8,
     marginHorizontal: 4,
-    width: 50
+    width: 100
   },
 
   footerContainer: {

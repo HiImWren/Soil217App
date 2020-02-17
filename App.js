@@ -1,10 +1,11 @@
 import React from 'react';
 
 import { Platform, AsyncStorage, StatusBar, SafeAreaView} from 'react-native';
-import { ApplicationProvider, Layout, Text} from '@ui-kitten/components';
+import { ApplicationProvider, Layout, Text, IconRegistry} from '@ui-kitten/components';
 import { mapping, light as lightTheme } from '@eva-design/eva';
 import { AppNavigator } from './navigation.component';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {EvaIconsPack} from '@ui-kitten/eva-icons';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -67,11 +68,11 @@ export default function App() {
   return (
 
     <React.Fragment>
-    
+    <IconRegistry icons = {EvaIconsPack}/>
     <ApplicationProvider mapping={mapping} theme={lightTheme}>
-    <SafeAreaProvider>
+
       <AppNavigator></AppNavigator>
-      </SafeAreaProvider>
+
     </ApplicationProvider>
     
     </React.Fragment>

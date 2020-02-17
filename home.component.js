@@ -76,7 +76,7 @@ export const HomeScreen = ({ navigation }) => {
 
   return (
       
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{height:'100%',marginTop: StatusBar.currentHeight}}>
       <TopNavigation title='Soil 217 Weather Observation' alignment='center'/>
       <Divider/>
       <Layout style={styles.container}>
@@ -108,10 +108,10 @@ export const HomeScreen = ({ navigation }) => {
         </Layout>
       </Layout>
 
-      <Layout style={{...styles.childLayout}} level='1'>
+      <Layout style={{...styles.buttonGroupContainer}} level='1'>
           <ButtonGroup style={styles.buttonGroup} size='giant'> 
-            <Button style={styles.button} onPress={()=>{navigateDetails()}} >View Data</Button>
-            <Button style={styles.button} disabled={dangerText!=""} onPress={()=>{appendToData()}} >Log Data!</Button>
+            <Button onPress={()=>{navigateDetails()}} >View Data</Button>
+            <Button disabled={dangerText!=""} onPress={()=>{appendToData()}} >Log Data!</Button>
             {/* <Button style={styles.Button} onPress={()=>{deleteAllData()}}>delete</Button> */}
           </ButtonGroup>
         </Layout>
@@ -123,7 +123,14 @@ export const HomeScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 2,
+      flex: 4,
+      flexDirection:'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+     // backgroundColor: '#F5FCFF',
+    },
+    buttonGroupContainer: {
+      flex: 1,
       flexDirection:'column',
       justifyContent: 'center',
       alignItems: 'center',
@@ -138,27 +145,11 @@ const styles = StyleSheet.create({
 
       justifyContent: 'center',
       alignItems: 'stretch',
-    },
-
-    footerLayout: {
-      flex: 1,
-      flexDirection: 'column',
-      justifyContent: 'flex-end',
-      padding: 20
-    },
-
- 
-    instructions: {
-      textAlign: 'center',
-      color: '#333333',
-      marginBottom: 5,
+      width: '90%',
     },
     
     card: {
-      margin: 10
-    },
-
-    button: {
+      margin: 10,
     },
 
     buttonGroup: {
