@@ -3,6 +3,8 @@ import { Platform, StyleSheet, View, TextInput, AsyncStorage,StatusBar,SafeAreaV
 import { Button, Divider, Layout, TopNavigation, Input, CardHeader, Card , Text, ButtonGroup} from '@ui-kitten/components';
 import App,{retrieveData,saveData, deleteAllData} from './App';
 
+import catUmbrella from './cat_umbrella.jpg';
+
 const a = 6.112
 const b = 17.67
 const c = 243.5
@@ -75,12 +77,14 @@ export const HomeScreen = ({ navigation }) => {
     }
 
   return (
-      
+    <ImageBackground source={catUmbrella} style={{... styles.container, width: '100%', height: '100%'}}>
+
     <SafeAreaView style={{ flex: 1 }}>
       <TopNavigation title='Soil 217 Weather Observation' alignment='center'/>
       <Divider/>
+
       <Layout style={styles.container}>
-        <Layout style={styles.childLayout} level='1'>
+        <Layout style={styles.childLayout2} level='1'>
           <Input label='Dry Bulb Temperature' style={styles.inputBox}
             placeholder="20°C"
             onChangeText={text => onChangeDry(text)}/>
@@ -115,8 +119,10 @@ export const HomeScreen = ({ navigation }) => {
             {/* <Button style={styles.Button} onPress={()=>{deleteAllData()}}>delete</Button> */}
           </ButtonGroup>
         </Layout>
+      
         <Text>{testData}</Text>
     </SafeAreaView>
+    </ImageBackground>
   );
 };
 
@@ -127,17 +133,28 @@ const styles = StyleSheet.create({
       flexDirection:'column',
       justifyContent: 'center',
       alignItems: 'center',
+      backgroundColor: '#F5FCFF10',
      // backgroundColor: '#F5FCFF',
     },
 
     inputBox:{
-      padding:10
+      padding:10,
     },
     
+
+    childLayout2: {
+
+      justifyContent: 'center',
+      alignItems: 'stretch',
+      backgroundColor: '#F5FCFFAA'
+    },
+
     childLayout: {
 
       justifyContent: 'center',
       alignItems: 'stretch',
+      backgroundColor: '#F5FCFF55',
+      margin:10
     },
 
     footerLayout: {

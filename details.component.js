@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-navigation';
 import { Platform, StyleSheet, View, TextInput, AsyncStorage, StatusBar} from 'react-native';
 import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction, Card, CardHeader, Button, IconRegistry} from '@ui-kitten/components';
 import { ScrollView } from 'react-native-gesture-handler';
-import App,{retrieveData,saveData, deleteData} from './App';
+import App, {saveData, deleteData, retrieveData} from './App';
 
 
 export const DetailsScreen = ({ navigation }) => {
@@ -29,6 +29,7 @@ export const DetailsScreen = ({ navigation }) => {
   );
   
 };
+
 const LoadAllData = async() => {
   return JSON.parse(await retrieveData());
 }
@@ -36,12 +37,26 @@ const LoadAllData = async() => {
 
 export default function DataCard (){
 
+    const [ isLoading, setIsLoading ] = useState(false);
     const [data, setDataState] = useState({observations: []});
 
     useEffect(() => {
       // Update the document title using the browser API
-      LoadAllData().then(res => setDataState( res));
-    });
+      //LoadAllData().then(res => setDataState( res));
+
+      async function fetchData() {
+        setIsLoading(true)
+        const loadedData = await LoadAllData();
+        setDataState(loadedData);
+        setIsLoading(false);
+      }
+      fetchData();
+    }, []);
+
+    if(isLoading)
+    {
+      return  <Text>Loading....</Text>
+    }
 
     return(
       <ScrollView>
@@ -49,9 +64,9 @@ export default function DataCard (){
             
             <Card key={index} footer={() => (
                 <View style={styles.footerContainer}>
-                    <Button style={styles.button} size='small' 
+                    <Button style={styles.button} 
                     onPress={()=>{
-                        deleteData(this,index)
+                        deleteData(this, index, setDataState);
                        // .then(() => LoadAllData())
                       }} status='danger'>delete</Button>
                 </View>

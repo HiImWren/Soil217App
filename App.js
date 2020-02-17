@@ -15,12 +15,13 @@ export const deleteAllData = async () => {
   await AsyncStorage.removeItem("LoggedData");
 }
 
-export const deleteData = async (comp,index) => {
+export const deleteData = async (comp,index, setDataState) => {
   var d = JSON.parse(await retrieveData());
   d.observations.splice(index,1);
 
   await AsyncStorage.setItem('LoggedData',JSON.stringify(d));
-  console.log(d);
+  //console.log(d);
+  setDataState(d);
 }
 
 export const saveData = async (savingData, dryBulb, wetBulb, dewpoint, relHumidity) => {
@@ -69,7 +70,7 @@ export default function App() {
     <React.Fragment>
     
     <ApplicationProvider mapping={mapping} theme={lightTheme}>
-    <SafeAreaProvider>
+      <SafeAreaProvider>
       <AppNavigator></AppNavigator>
       </SafeAreaProvider>
     </ApplicationProvider>
