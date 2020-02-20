@@ -1,6 +1,6 @@
 import React,{Component, useState, useEffect}from 'react';
 import { Platform, StyleSheet, View, TextInput, AsyncStorage,StatusBar,SafeAreaView, statusbar, ImageBackground } from 'react-native';
-import { Button, Divider, Layout, TopNavigation, Input, CardHeader, Card , Text, ButtonGroup, withStyles} from '@ui-kitten/components';
+import { Button, Divider, Layout, TopNavigation,TopNavigationAction, Input, CardHeader, Card , Text, ButtonGroup, withStyles, Icon} from '@ui-kitten/components';
 import App,{retrieveData,saveData, deleteAllData} from './App';
 
 import catUmbrella from './Clouds.jpg';
@@ -8,6 +8,9 @@ import catUmbrella from './Clouds.jpg';
 const a = 6.112
 const b = 17.67
 const c = 243.5
+const helpButtonIcon = (style)=>(
+  <Icon name='question-mark-circle-outline' style={{...style}}/>
+);
 
 
 export const HomeScreen = ({ navigation }) => {
@@ -16,7 +19,15 @@ export const HomeScreen = ({ navigation }) => {
     navigation.navigate('Details');
   };
 
- 
+  const navigateHelp = () => {
+    navigation.navigate('Help');
+    
+  }
+
+
+  const HelpAction = (props) =>[
+    <TopNavigationAction {...props} icon={helpButtonIcon} onPress={navigateHelp}></TopNavigationAction>
+  ]
   // this.state = {
   //   wetBulb: 0,
   //   dryBulb: 0,
@@ -80,7 +91,7 @@ export const HomeScreen = ({ navigation }) => {
     <ImageBackground source={catUmbrella} style={{... styles.container, width: '100%', height: '100%'}}>
 
     <SafeAreaView style={styles.safeArea}>
-      <TopNavigation title='Soil 217 Weather Observation' style={styles.TopNavigation} titleStyle={styles.TopTitle} alignment='center'/>
+      <TopNavigation title='Calculator' style={styles.TopNavigation} titleStyle={styles.TopTitle} alignment='center' rightControls={HelpAction()}/>
       {/* <Divider/> */}
 
       <Layout style={styles.container}>
@@ -152,7 +163,7 @@ const styles = StyleSheet.create({
     },
 
     TopTitle:{
-      color:'white',
+      //color:'white',
       fontSize: 20,
       fontWeight: 'bold',
     },
